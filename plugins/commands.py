@@ -720,7 +720,7 @@ async def tutorial(bot, message):
     try:
         tutorial = re.search(r"https?://[^\s]+", message.text).group()
     except:
-        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/sey_tutorial https://t.me/Silicon_Bot_Update</code>")
+        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/set_tutorial https://t.me/commonthread</code>")
     reply = await message.reply_text("<b>ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...</b>")
     await save_group_settings(grpid, 'tutorial', tutorial)
     await reply.edit_text(f"<b>sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴄʜᴀɴɢᴇᴅ ᴛᴜᴛᴏʀɪᴀʟ ꜰᴏʀ {title}</b>\n\nʟɪɴᴋ - {tutorial}", disable_web_page_preview=True)
@@ -750,7 +750,7 @@ async def tutorial_two(bot, message):
     try:
         tutorial_two = re.search(r"https?://[^\s]+", message.text).group()
     except:
-        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/set_tutorial_2 https://t.me/Silicon_Bot_Update</code>")
+        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/set_tutorial_2 https://t.me/commonthread</code>")
     reply = await message.reply_text("<b>ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...</b>")
     await save_group_settings(grpid, 'tutorial_two', tutorial_two)
     await reply.edit_text(f"<b>sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴄʜᴀɴɢᴇᴅ 𝟸ɴᴅ ᴛᴜᴛᴏʀɪᴀʟ ꜰᴏʀ {title}</b>\n\nʟɪɴᴋ - {tutorial_two}", disable_web_page_preview=True)
@@ -780,7 +780,7 @@ async def tutorial_three(bot, message):
     try:
         tutorial_three = re.search(r"https?://[^\s]+", message.text).group()
     except:
-        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/set_tutorial_3 https://t.me/Silicon_Bot_Update</code>")
+        return await message.reply_text("<b><u><i>ɪɴᴠᴀɪʟᴅ ꜰᴏʀᴍᴀᴛ!!</i></u>\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs - </b>\n<code>/set_tutorial_3 https://t.me/commonthread</code>")
     reply = await message.reply_text("<b>ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...</b>")
     await save_group_settings(grpid, 'tutorial_three', tutorial_three)
     await reply.edit_text(f"<b>sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴄʜᴀɴɢᴇᴅ 𝟹ʀᴅ ᴛᴜᴛᴏʀɪᴀʟ ꜰᴏʀ {title}</b>\n\nʟɪɴᴋ - {tutorial_three}", disable_web_page_preview=True)
