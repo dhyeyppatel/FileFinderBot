@@ -22,19 +22,19 @@ API_ID = int(environ.get('API_ID', ''))
 API_HASH = environ.get('API_HASH', '')
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '').split()]
-USERNAME = environ.get('USERNAME', "https://telegram.me/dhyeye")
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002453097320'))
+USERNAME = environ.get('USERNAME', "https://telegram.me/Averse008")
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1003479285528'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/dhyeygotmovies')
 
 # Pics 
 
 QR_CODE = environ.get('QR_CODE', 'https://graph.org/file/ccb9db43e62a2e524928e.jpg')
-START_IMG = environ.get('START_IMG', 'https://i.ibb.co/LdT5fdJY/photo-2025-08-13-01-12-38-7537871916074270724.jpg')
+START_IMG = environ.get('START_IMG', 'https://ar-hosting.pages.dev/1763992896299.jpg')
 FSUB_PICS = (environ.get('FSUB_PICS', 'https://graph.org/file/7478ff3eac37f4329c3d8.jpg https://graph.org/file/56b5deb73f3b132e2bb73.jpg')).split() 
 
 # File Limit
 
-IS_FILE_LIMIT = is_enabled('IS_FILE_LIMIT', True) # Enable Or Disable File Limit
+IS_FILE_LIMIT = is_enabled('IS_FILE_LIMIT', False) # Enable Or Disable File Limit
 FILES_LIMIT = int(environ.get("FREE_FILES", "10")) #No. of File User Gets In Free
 
 # Database Settings
@@ -47,9 +47,9 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Silicon_Files')
 
 # Verify/Shortlink Settings 
 
-IS_VERIFY = is_enabled('IS_VERIFY', True)
-LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1002453097320'))
-LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002453097320'))
+IS_VERIFY = is_enabled('IS_VERIFY', False)
+LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1003479285528'))
+LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1003479285528'))
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/commonthread")
 TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/commonthread")
 TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/commonthread")
@@ -72,16 +72,16 @@ AUTH_CHANNELS = [int(ch) for ch in auth_channels.split() if ch and id_pattern.ma
 
 # Channels
 
-SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002082116695'))
-request_channel = environ.get('REQUEST_CHANNEL', '-1002659186869')
+SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1003453928586'))
+request_channel = environ.get('REQUEST_CHANNEL', '-1003479285528')
 REQUEST_CHANNEL = int(request_channel) if request_channel and id_pattern.search(request_channel) else None
 
 # Movie Update Notification Settings/ Auto Index Settings
 
 MOVIE_UPDATE_NOTIFICATION = bool(environ.get('MOVIE_UPDATE_NOTIFICATION', True))  # Notification On (True) / Off (False)
-MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1002659186869'))  # Notification of sent to your channel
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002684551966').split()] # Auto Index Channel
-DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS','-1002684553282')) # Channel to delete file from DB
+MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1003479285528'))  # Notification of sent to your channel
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1003251779111').split()] # Auto Index Channel
+DELETE_CHANNELS = int(environ.get('DELETE_CHANNELS','-1003418854342')) # Channel to delete file from DB
 IMAGE_FETCH = bool(environ.get('IMAGE_FETCH', True))  # On (True) / Off (False)
 LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', False)) # Shows link preview in notification msg instead of image
 ABOVE_PREVIEW = bool(environ.get('ABOVE_PREVIEW', True)) # Shows link preview above the text in notification msg if True else below the msg
@@ -121,7 +121,7 @@ if len(BIN_CHANNEL) == 0:
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "https://stream.dhyey.space/") #App URL Where you deployed
+URL = environ.get("URL", "https://filefinderbot-ne3r.onrender.com/") #App URL Where you deployed
 if len(URL) == 0:
     print('error URL is missing, exiting now')
     exit()
