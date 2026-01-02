@@ -9,7 +9,7 @@ import time
 
 lock = asyncio.Lock()
 
-# ✅ ALLOWED MIME TYPES (NEW)
+# ✅ ALLOWED MIME TYPES
 ALLOWED_MIME_TYPES = [
     # 🎥 Videos
     'video/mp4',
@@ -39,7 +39,7 @@ async def index_files(bot, query):
         try:
             chat = int(chat)
         except:
-            chat = chat
+            pass
         await index_files_to_db(int(lst_msg_id), chat, msg, bot, int(skip))
     elif ident == 'cancel':
         temp.CANCEL = True
@@ -49,6 +49,7 @@ async def index_files(bot, query):
 async def send_for_index(bot, message):
     if lock.locked():
         return await message.reply('ᴡᴀɪᴛ ᴜɴᴛɪʟ ᴘʀᴇᴠɪᴏᴜs ᴘʀᴏᴄᴇss ᴄᴏᴍᴘʟᴇᴛᴇ.')
+
     i = await message.reply("ꜰᴏʀᴡᴀʀᴅ ʟᴀsᴛ ᴍᴇssᴀɢᴇ ᴏʀ sᴇɴᴅ ʟᴀsᴛ ᴍᴇssᴀɢᴇ ʟɪɴᴋ.")
     msg = await bot.listen(chat_id=message.chat.id, user_id=message.from_user.id)
     await i.delete()
@@ -59,7 +60,7 @@ async def send_for_index(bot, message):
             last_msg_id = int(msg_link[-1])
             chat_id = msg_link[-2]
             if chat_id.isnumeric():
-                chat_id = int(("-100" + chat_id))
+                chat_id = int("-100" + chat_id)
         except:
             return await message.reply('ɪɴᴠᴀʟɪᴅ ᴍᴇssᴀɢᴇ ʟɪɴᴋ!')
     elif msg.forward_from_chat and msg.forward_from_chat.type == enums.ChatType.CHANNEL:
@@ -86,8 +87,10 @@ async def send_for_index(bot, message):
     ],[
         InlineKeyboardButton('ᴄʟᴏsᴇ', callback_data='close_data')
     ]]
+
     await message.reply(
-        f'ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɪɴᴅᴇx {chat.title}?\nᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs: <code>{last_msg_id}</code>',
+        f'ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɪɴᴅᴇx {chat.title}?\n'
+        f'ᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs: <code>{last_msg_id}</code>',
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
@@ -99,6 +102,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
     async with lock:
         try:
             async for message in bot.iter_messages(chat, lst_msg_id, skip):
+
                 if temp.CANCEL:
                     temp.CANCEL = False
                     return await msg.edit("ɪɴᴅᴇxɪɴɢ ᴄᴀɴᴄᴇʟʟᴇᴅ.")
@@ -108,19 +112,34 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                 if message.empty:
                     deleted += 1
                     continue
-                elif not message.media:
+
+                if not message.media:
                     no_media += 1
                     continue
-                elif message.media not in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
+
+                if message.media not in [
+                    enums.MessageMediaType.VIDEO,
+                    enums.MessageMediaType.DOCUMENT,
+                    enums.MessageMediaType.AUDIO
+                ]:
                     unsupported += 1
                     continue
 
-                media = getattr(message, message.media.value, None)
+                # ✅ CORRECT MEDIA EXTRACTION
+                if message.media == enums.MessageMediaType.VIDEO:
+                    media = message.video
+                elif message.media == enums.MessageMediaType.DOCUMENT:
+                    media = message.document
+                elif message.media == enums.MessageMediaType.AUDIO:
+                    media = message.audio
+                else:
+                    unsupported += 1
+                    continue
+
                 if not media or not media.mime_type:
                     unsupported += 1
                     continue
 
-                # ✅ UPDATED MIME CHECK
                 if media.mime_type not in ALLOWED_MIME_TYPES:
                     unsupported += 1
                     continue
@@ -137,13 +156,18 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
 
         except FloodWait as e:
             await asyncio.sleep(e.x)
+
         except Exception as e:
             await msg.reply(f'ɪɴᴅᴇx ᴄᴀɴᴄᴇʟᴇᴅ - {e}')
+
         else:
             time_taken = get_readable_time(time.time() - start_time)
             await msg.edit(
-                f'✅ sᴀᴠᴇᴅ <code>{total_files}</code> ꜰɪʟᴇs\n'
-                f'⏱ ᴛɪᴍᴇ: {time_taken}\n'
-                f'📄 ᴅᴜᴘʟɪᴄᴀᴛᴇs: <code>{duplicate}</code>\n'
-                f'❌ ᴇʀʀᴏʀs: <code>{errors}</code>'
+                f'sᴜᴄᴄᴇsꜰᴜʟʟʏ sᴀᴠᴇᴅ <code>{total_files}</code> ᴛᴏ ᴅᴀᴛᴀʙᴀsᴇ!\n'
+                f'ᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ {time_taken}\n\n'
+                f'ᴅᴜᴘʟɪᴄᴀᴛᴇ ꜰɪʟᴇs sᴋɪᴘᴘᴇᴅ: <code>{duplicate}</code>\n'
+                f'ᴅᴇʟᴇᴛᴇᴅ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{deleted}</code>\n'
+                f'ɴᴏɴ-ᴍᴇᴅɪᴀ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{no_media}</code>\n'
+                f'ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ: <code>{unsupported}</code>\n'
+                f'ᴇʀʀᴏʀs ᴏᴄᴄᴜʀʀᴇᴅ: <code>{errors}</code>'
             )
