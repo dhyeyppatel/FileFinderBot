@@ -1,4 +1,4 @@
-import asyncio
+import asyncio 
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, MessageNotModified
 from info import ADMINS, CHANNELS
@@ -8,6 +8,27 @@ from utils import temp, get_readable_time
 import time
 
 lock = asyncio.Lock()
+
+# ✅ ALLOWED MIME TYPES (NEW)
+ALLOWED_MIME_TYPES = [
+    # 🎥 Videos
+    'video/mp4',
+    'video/x-matroska',
+
+    # 🎵 Music
+    'audio/mpeg',
+    'audio/mp3',
+    'audio/ogg',
+    'audio/wav',
+
+    # 📄 Documents
+    'application/pdf',
+
+    # 🗜 Archives
+    'application/zip',
+    'application/x-rar-compressed',
+    'application/x-7z-compressed'
+]
 
 @Client.on_callback_query(filters.regex(r'^index'))
 async def index_files(bot, query):
@@ -31,6 +52,7 @@ async def send_for_index(bot, message):
     i = await message.reply("ꜰᴏʀᴡᴀʀᴅ ʟᴀsᴛ ᴍᴇssᴀɢᴇ ᴏʀ sᴇɴᴅ ʟᴀsᴛ ᴍᴇssᴀɢᴇ ʟɪɴᴋ.")
     msg = await bot.listen(chat_id=message.chat.id, user_id=message.from_user.id)
     await i.delete()
+
     if msg.text and msg.text.startswith("https://t.me"):
         try:
             msg_link = msg.text.split("/")
@@ -39,81 +61,50 @@ async def send_for_index(bot, message):
             if chat_id.isnumeric():
                 chat_id = int(("-100" + chat_id))
         except:
-            await message.reply('ɪɴᴠᴀʟɪᴅ ᴍᴇssᴀɢᴇ ʟɪɴᴋ!')
-            return
+            return await message.reply('ɪɴᴠᴀʟɪᴅ ᴍᴇssᴀɢᴇ ʟɪɴᴋ!')
     elif msg.forward_from_chat and msg.forward_from_chat.type == enums.ChatType.CHANNEL:
         last_msg_id = msg.forward_from_message_id
         chat_id = msg.forward_from_chat.username or msg.forward_from_chat.id
     else:
-        await message.reply('ᴛʜɪs ɪs ɴᴏᴛ ꜰᴏʀᴡᴀʀᴅᴇᴅ ᴍᴇssᴀɢᴇ ᴏʀ ʟɪɴᴋ.')
-        return
-    try:
-        chat = await bot.get_chat(chat_id)
-    except Exception as e:
-        return await message.reply(f'Errors - {e}')
+        return await message.reply('ᴛʜɪs ɪs ɴᴏᴛ ꜰᴏʀᴡᴀʀᴅᴇᴅ ᴍᴇssᴀɢᴇ ᴏʀ ʟɪɴᴋ.')
+
+    chat = await bot.get_chat(chat_id)
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply("ɪ ᴄᴀɴ ɪɴᴅᴇx ᴏɴʟʏ ᴄʜᴀɴɴᴇʟs.")
+
     s = await message.reply("sᴇɴᴅ sᴋɪᴘ ᴍᴇssᴀɢᴇ ɴᴜᴍʙᴇʀ.")
     msg = await bot.listen(chat_id=message.chat.id, user_id=message.from_user.id)
     await s.delete()
+
     try:
         skip = int(msg.text)
     except:
         return await message.reply("ɴᴜᴍʙᴇʀ ɪs ɪɴᴠᴀʟɪᴅ.")
+
     buttons = [[
         InlineKeyboardButton('ʏᴇs', callback_data=f'index#yes#{chat_id}#{last_msg_id}#{skip}')
     ],[
-        InlineKeyboardButton('ᴄʟᴏsᴇ', callback_data='close_data'),
+        InlineKeyboardButton('ᴄʟᴏsᴇ', callback_data='close_data')
     ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await message.reply(f'ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɪɴᴅᴇx {chat.title} ᴄʜᴀɴɴᴇʟ?\nᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs: <code>{last_msg_id}</code>', reply_markup=reply_markup)
-
-@Client.on_message(filters.command('channel'))
-async def channel_info(bot, message):
-    if message.from_user.id not in ADMINS:
-        await message.reply('ᴏɴʟʏ ᴛʜᴇ ʙᴏᴛ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ... 😑')
-        return
-    ids = CHANNELS
-    if not ids:
-        return await message.reply("ɴᴏᴛ sᴇᴛ ᴄʜᴀɴɴᴇʟs")
-    text = '**ɪɴᴅᴇxᴇᴅ ᴄʜᴀɴɴᴇʟs:**\n\n'
-    for id in ids:
-        chat = await bot.get_chat(id)
-        text += f'{chat.title}\n'
-    text += f'\n**ᴛᴏᴛᴀʟ:** {len(ids)}'
-    await message.reply(text)
+    await message.reply(
+        f'ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɪɴᴅᴇx {chat.title}?\nᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs: <code>{last_msg_id}</code>',
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
     start_time = time.time()
-    total_files = 0
-    duplicate = 0
-    errors = 0
-    deleted = 0
-    no_media = 0
-    unsupported = 0
+    total_files = duplicate = errors = deleted = no_media = unsupported = 0
     current = skip
-    
+
     async with lock:
         try:
             async for message in bot.iter_messages(chat, lst_msg_id, skip):
-                time_taken = get_readable_time(time.time()-start_time)
                 if temp.CANCEL:
                     temp.CANCEL = False
-                    try:
-                        await msg.edit(f"sᴜᴄᴄᴇssꜰᴜʟʟʏ ᴄᴀɴᴄᴇʟʟᴇᴅ!\nᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ {time_taken}\n\nsᴀᴠᴇᴅ <code>{total_files}</code> ꜰɪʟᴇs ᴛᴏ ᴅᴀᴛᴀʙᴀsᴇ!\nᴅᴜᴘʟɪᴄᴀᴛᴇ ꜰɪʟᴇs sᴋɪᴘᴘᴇᴅ: <code>{duplicate}</code>\nᴅᴇʟᴇᴛᴇᴅ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{deleted}</code>\nɴᴏɴ-ᴍᴇᴅɪᴀ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{no_media + unsupported}</code>\nᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ: <code>{unsupported}</code>\nᴇʀʀᴏʀs ᴏᴄᴄᴜʀʀᴇᴅ: <code>{errors}</code>")
-                    except MessageNotModified:
-                        pass
-                    return
+                    return await msg.edit("ɪɴᴅᴇxɪɴɢ ᴄᴀɴᴄᴇʟʟᴇᴅ.")
+
                 current += 1
-                if current % 100 == 0:
-                    btn = [[
-                        InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{lst_msg_id}#{skip}')
-                    ]]
-                    try:
-                        await msg.edit_text(text=f"ᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs ʀᴇᴄᴇɪᴠᴇᴅ: <code>{current}</code>\nᴛᴏᴛᴀʟ ᴍᴇssᴀɢᴇs sᴀᴠᴇᴅ: <code>{total_files}</code>\nᴅᴜᴘʟɪᴄᴀᴛᴇ ꜰɪʟᴇs sᴋɪᴘᴘᴇᴅ: <code>{duplicate}</code>\nᴅᴇʟᴇᴛᴇᴅ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{deleted}</code>\nɴᴏɴ-ᴍᴇᴅɪᴀ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{no_media + unsupported}</code>\nᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ: <code>{unsupported}</code>\nᴇʀʀᴏʀs ᴏᴄᴄᴜʀʀᴇᴅ: <code>{errors}</code>", reply_markup=InlineKeyboardMarkup(btn))
-                    except MessageNotModified:
-                        pass
-                    await asyncio.sleep(2)
+
                 if message.empty:
                     deleted += 1
                     continue
@@ -123,28 +114,36 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                 elif message.media not in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
                     unsupported += 1
                     continue
+
                 media = getattr(message, message.media.value, None)
-                if not media:
+                if not media or not media.mime_type:
                     unsupported += 1
                     continue
-                elif media.mime_type not in ['video/mp4', 'video/x-matroska']:
+
+                # ✅ UPDATED MIME CHECK
+                if media.mime_type not in ALLOWED_MIME_TYPES:
                     unsupported += 1
                     continue
+
                 media.caption = message.caption
                 sts = await save_file(media)
+
                 if sts == 'suc':
                     total_files += 1
                 elif sts == 'dup':
                     duplicate += 1
-                elif sts == 'err':
+                else:
                     errors += 1
+
         except FloodWait as e:
             await asyncio.sleep(e.x)
         except Exception as e:
-            await msg.reply(f'ɪɴᴅᴇx ᴄᴀɴᴄᴇʟᴇᴅ ᴅᴜᴇ ᴛᴏ ᴇʀʀᴏʀ - {e}')
+            await msg.reply(f'ɪɴᴅᴇx ᴄᴀɴᴄᴇʟᴇᴅ - {e}')
         else:
-            time_taken = get_readable_time(time.time()-start_time)
-            try:
-                await msg.edit(f'sᴜᴄᴄᴇsꜰᴜʟʟʏ sᴀᴠᴇᴅ <code>{total_files}</code> ᴛᴏ ᴅᴀᴛᴀʙᴀsᴇ!\nᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ {time_taken}\n\nᴅᴜᴘʟɪᴄᴀᴛᴇ ꜰɪʟᴇs sᴋɪᴘᴘᴇᴅ: <code>{duplicate}</code>\nᴅᴇʟᴇᴛᴇᴅ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{deleted}</code>\nɴᴏɴ-ᴍᴇᴅɪᴀ ᴍᴇssᴀɢᴇs sᴋɪᴘᴘᴇᴅ: <code>{no_media + unsupported}</code>\nᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ: <code>{unsupported}</code>\nᴇʀʀᴏʀs ᴏᴄᴄᴜʀʀᴇᴅ: <code>{errors}</code>')
-            except MessageNotModified:
-                pass
+            time_taken = get_readable_time(time.time() - start_time)
+            await msg.edit(
+                f'✅ sᴀᴠᴇᴅ <code>{total_files}</code> ꜰɪʟᴇs\n'
+                f'⏱ ᴛɪᴍᴇ: {time_taken}\n'
+                f'📄 ᴅᴜᴘʟɪᴄᴀᴛᴇs: <code>{duplicate}</code>\n'
+                f'❌ ᴇʀʀᴏʀs: <code>{errors}</code>'
+            )
