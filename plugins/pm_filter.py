@@ -148,7 +148,7 @@ async def next_page(bot, query):
         current_page = (offset // max_btn) + 1
         total_pages = math.ceil(total / max_btn)
 
-        del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
+        del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ 𝚌𝚕𝚞𝚝𝚝𝚎𝚛𝚒𝚗𝚐 ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
 
         if settings.get("link"):
             links = "".join([
@@ -268,7 +268,7 @@ async def season_search(client: Client, query: CallbackQuery):
     settings = await get_settings(query.message.chat.id)
 
     cap = CAP.get(key, "")
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ 𝚌𝚕𝚞𝚝𝚝𝚎𝚛𝚒𝚗𝚐 ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
 
     if settings.get("link"):
         links = "".join([
@@ -356,7 +356,7 @@ async def quality_search(client: Client, query: CallbackQuery):
     settings = await get_settings(query.message.chat.id)
 
     cap = CAP.get(key, "")
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ 𝚌𝚕𝚞𝚝𝚝𝚎𝚛𝚒𝚗𝚐 ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
 
     if settings.get("link"):
         links = "".join([
@@ -448,7 +448,7 @@ async def lang_search(client: Client, query: CallbackQuery):
     settings = await get_settings(query.message.chat.id)
 
     cap = CAP.get(key, "")
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ 𝚌𝚕𝚞𝚝𝚝𝚎𝚛𝚒𝚗𝚐 ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
 
     if settings.get("link"):
         links = "".join([
@@ -1207,7 +1207,7 @@ async def auto_filter(client, msg, spoll=False):
     temp.FILES_ID[key] = files
     temp.CHAT[message.from_user.id] = message.chat.id
 
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ 𝚌𝚕𝚞𝚝𝚝𝚎𝚛𝚒𝚗𝚐 ɪssᴜᴇs</b>" if settings.get("auto_delete") else ""
 
     if settings.get("link"):
         links = "".join([
