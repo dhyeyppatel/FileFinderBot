@@ -473,8 +473,9 @@ async def media_watch(message_id):
     media = getattr(media_msg, media_msg.media.value, None)
     src = urllib.parse.urljoin(URL, f'download/{message_id}')
     tag = media.mime_type.split('/')[0].strip()
-    if tag == 'video':
-        html_ = watch_tmplt.replace('{file_name}', media.file_name).replace('{src}', src)
+    if tag in ['video', 'audio']:
+        html_ = watch_tmplt.replace('<video', f'<{tag}').replace('</video>', f'</{tag}>')
+        html_ = html_.replace('{file_name}', media.file_name).replace('{src}', src)
     else:
         html_ = '<h1>This is not streamable file</h1>'
     return html_
