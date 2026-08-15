@@ -31,7 +31,7 @@ async def pm_search(client, message):
         return
     sili = silicondb.get_bot_sttgs()
     if not sili.get('PM_SEARCH', False) if sili else False:
-        return await message.reply_text('<b><i>ᴘᴍ sᴇᴀʀᴄʜ ᴡᴀs ᴅɪsᴀʙʟᴇᴅ sᴇᴀʀᴄʜ ɪɴ ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ!</i></b>')
+        return await message.reply_text('<b><i>ᴘᴍ sᴇᴀʀᴄʜ ᴡᴀs ᴅɪsᴀʙʟᴇᴅ sᴇᴀʀᴄʜ ɪɴ @dhyeygotmovies ɢʀᴏᴜᴘ!</i></b>')
 
     if not sili.get('AUTO_FILTER', True) if sili else True:
         return await message.reply_text('<b><i>ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ᴡᴀs ᴅɪsᴀʙʟᴇᴅ!</i></b>')
